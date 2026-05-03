@@ -20,6 +20,15 @@ def speak():
                 ]
             elif system == "Darwin":  # macOS
                 command = ["say", text]
+            elif system == "Linux":
+                # Try espeak first, then spd-say
+                import shutil
+                if shutil.which("espeak"):
+                    command = ["espeak", text]
+                elif shutil.which("spd-say"):
+                    command = ["spd-say", text]
+                else:
+                    command = None
             else:
                 command = None
             if command:
